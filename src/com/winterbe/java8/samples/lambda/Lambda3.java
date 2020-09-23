@@ -23,10 +23,13 @@ public class Lambda3 {
 
     public static void main(String[] args) throws Exception {
 
-        // Predicates
+        Predicate<String> isNumber = s -> s.matches("^\\d+$") || s.matches("\\d\\.\\d");
+        Predicate<String> isNumber1 = s -> s.matches("^\\d+$") || s.matches("\\d\\.\\d");
 
+        //定义规则，然后使用test一类的函数来验证传入的参数是否符合该规则
         Predicate<String> predicate = (s) -> s.length() > 0;
 
+        //它具有属性与或非门，可以进行嵌套操作
         predicate.test("foo");              // true
         predicate.negate().test("foo");     // false
 
@@ -38,8 +41,7 @@ public class Lambda3 {
 
 
         // Functions
-
-        Function<String, Integer> toInteger = Integer::valueOf;
+        Function<String, Integer> toInteger = Integer::parseInt;
         Function<String, String> backToString = toInteger.andThen(String::valueOf);
 
         backToString.apply("123");     // "123"
@@ -60,7 +62,7 @@ public class Lambda3 {
 
         // Comparators
 
-        Comparator<Person> comparator = (p1, p2) -> p1.firstName.compareTo(p2.firstName);
+        Comparator<Person> comparator = Comparator.comparing(p -> p.firstName);
 
         Person p1 = new Person("John", "Doe");
         Person p2 = new Person("Alice", "Wonderland");
